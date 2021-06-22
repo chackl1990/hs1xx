@@ -18,23 +18,42 @@ module HS1xx
     end
 
     def on?
-      status = send_to_plug(:system => {:get_sysinfo => {}})
-      status['system']['get_sysinfo']['relay_state'] == 1
+      data = send_to_plug(:system => {:get_sysinfo => {}})
+      data['system']['get_sysinfo']['relay_state'] == 1
     end
 
     def off?
       !on?
     end
 
+    def led_off
+      send_to_plug(:system => {:set_led_off => {:off => 1}})
+    end
+
+    def led_on
+      send_to_plug(:system => {:set_led_off => {:off => 0}})
+    end
+
+    def emeter
+      data = send_to_plug({:emeter => {:get_realtime =>{}}})
+      return data['emeter']['get_realtime']
+    end
+
+    def info
+      data = send_to_plug({:system => {:get_sysinfo => :null}})
+      return data['system']['get_sysinfo']
+    end
+
     private
 
     def send_to_plug(payload)
       payload = payload.to_json
-      socket = TCPSocket.new(@ip_address, 9999)
-      socket.puts(encrypt(payload))
-      decrypt(socket.gets)
-    ensure
-      socket.close rescue nil
+      socket = TCPSocket.new(@ip_address, 9999, 0)
+      socket.write(encrypt(payload))
+      socket.close_write()
+      data = decrypt(socket.read)
+      socket.close
+      return data
     end
 
     def encrypt(payload)
