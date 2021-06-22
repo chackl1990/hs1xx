@@ -7,14 +7,6 @@ This is a library I've pieced together from information I've managed to find fro
 * [George Georgovassilis's blog post](https://georgovassilis.blogspot.co.uk/2016/05/controlling-tp-link-hs100-wi-fi-smart.html)
 * [plasticrake/hs100-api](https://github.com/plasticrake/hs100-api)
 
-## Installation
-
-Just install the gem:
-
-```ruby
-gem 'hs1xx'
-```
-
 ## Usage
 
 ```ruby
