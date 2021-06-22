@@ -23,4 +23,6 @@ plug.on     # => Turns the plug on
 plug.off    # => Turns the plug off
 plug.on?    # => Is the plug on?
 plug.off?   # => Is the plug off
+plug.emeter # => Retruns a hash of the emeter data
+plug.info   # => Returns a hash of the device info
 ```
